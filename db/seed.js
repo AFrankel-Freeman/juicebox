@@ -1,4 +1,17 @@
-const { client, getAllUsers, createUser, updateUser, createPost, updatePost, getAllPosts, getPostsByUser, getUserById, createTags, addTagsToPost, getPostById } = require('./index.js');
+const { 
+    client, 
+    getAllUsers, 
+    createUser, 
+    updateUser, 
+    createPost, 
+    updatePost, 
+    getAllPosts, 
+    getUserById, 
+    createTags, 
+    addTagsToPost,
+    getAllTags,
+    getPostsByTagName
+ } = require('./index.js');
 
 const dropTables = async () => {
     try{
@@ -169,19 +182,28 @@ const testDB = async () => {
         });
         console.log( "result", updatePostResult);
 
-        console.log("calling getUserById with 1");
-        const albert = await getUserById(1);
-        console.log ("result", albert);
-
         console.log("calling updatePost on posts[1], only updating tags");
         const updatePostTagsResult = await updatePost(posts[1].id,{
             tags: ["#youcandoanything", "#redfish", "#bluefish"]
         });
         console.log("result", updatePostTagsResult);
 
+        console.log("calling getUserById with 1");
+        const albert = await getUserById(1);
+        console.log ("result", albert);
+
+        console.log("Calling getAllTags");
+        const allTags = await getAllTags();
+        console.log("Result:", allTags);
+
+
+        console.log("Calling getPostsByTagName with #happy");
+        const postsWithHappy = await getPostsByTagName("#happy");
+        console.log("Result:", postsWithHappy);
+
         console.log("Finish Database Tests!");
     } catch (err){
-    console.error("Error Testing Post Database!");
+        console.error("Error Testing Post Database!");
     throw err;
     } 
 }
